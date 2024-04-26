@@ -7,22 +7,28 @@ import 'package:quaiz_app/Screens/first_screen.dart';
 import 'package:quaiz_app/Screens/questions_screen.dart';
 import 'package:quaiz_app/Services/Sp_Services/cashe_helper.dart';
 
-class HexagonShape extends StatelessWidget{
+class HexagonShape extends StatefulWidget{
     final Color color ;
   final bool notopend;
   final String text;
   final int leveNum;
   final int previousScore;
    HexagonShape({super.key, required this.color, required this.notopend,  required this.text, required this.leveNum, required this.previousScore});
-   
+
+  @override
+  State<HexagonShape> createState() => _HexagonShapeState();
+}
+int levelsSolved=0;
+class _HexagonShapeState extends State<HexagonShape> {
+
   @override
   Widget build(BuildContext context) {
     return  Column(
       children: [
         GestureDetector(
           onTap: () {
-            if(previousScore>10||leveNum==1)
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>QuestionsScreen(leveNum)));
+            if(widget.previousScore>10||widget.leveNum==1)
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>QuestionsScreen(widget.leveNum)));
           },
           child: ClipPath(
           clipper: Hexagon(),
@@ -30,7 +36,7 @@ class HexagonShape extends StatelessWidget{
             width: MediaQuery.of(context).size.width*0.32,
             height: MediaQuery.of(context).size.height*0.2,
             decoration: BoxDecoration(
-              color:  notopend?color.withOpacity(0.75):color
+              color:  widget.notopend?widget.color.withOpacity(0.75):widget.color
             ),
             child: Stack(
               alignment: Alignment.center,
@@ -39,11 +45,11 @@ class HexagonShape extends StatelessWidget{
                   alignment: Alignment(0, -0.2),
                   child: DefaultTextStyle(style: GoogleFonts.aBeeZee(
                     fontSize: MediaQuery.of(context).size.width*0.12,
-                    color: previousScore>=10||leveNum==1?Colors.white:Colors.white.withOpacity(0.7),
+                    color: widget.previousScore>=10||widget.leveNum==1?Colors.white:Colors.white.withOpacity(0.7),
                     fontWeight: FontWeight.bold,
-                  ), child:Text(text),),
+                  ), child:Text(widget.text),),
                 ),
-                if(previousScore<=((answer.length/2))*10&&leveNum>1)
+                if(widget.previousScore<=((answer.length/2))*10&&widget.leveNum>1)
                 Align(
                   alignment: Alignment(0, -0.1),
                   child: Icon(
@@ -73,13 +79,12 @@ class HexagonShape extends StatelessWidget{
            ),
         ),
         SizedBox(height: 10,),
-        if(previousScore>10||leveNum==1)
-        DefaultTextStyle(child: Text("Score in this level : "+SharedPreferencesHelper.getData(key: leveNum.toString()).toString()),
-        style: GoogleFonts.aBeeZee(
+        if(widget.previousScore>10||widget.leveNum==1)
+        DefaultTextStyle(style: GoogleFonts.aBeeZee(
           fontSize: MediaQuery.of(context).size.width*0.038,
           fontWeight: FontWeight.bold,
           color: Colors.amber
-        ),
+        ),child:  Text("Score : ${SharedPreferencesHelper.getData(key: widget.leveNum.toString())?? 0}"),
         )
       ],
     );

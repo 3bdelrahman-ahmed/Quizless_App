@@ -64,53 +64,67 @@ class _ValidationScreenState extends State<ValidationScreen> {
                 color: Colors.deepPurple,
                 border: Border.all(width: 0.9)
               ),
-              child: Column(
-                children: [
-                 const SizedBox(height: 20,),
-                 DefaultTextStyle(style: GoogleFonts.aBeeZee(
-                    fontSize: MediaQuery.of(context).size.width*0.059,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black
-                  ), child: const Text('enter your Email')) ,
-                  Container(
-                    margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.04),
-                    child: Form(
-                      key: formKey,
-                      child:      Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextFormField(
-              controller: textinput,
-              keyboardAppearance: Brightness.light,
-      validator: (value) {
-      if (value == null || value.isEmpty) {
-        return 'Please enter some text';
-      }
-      return null;
-      },
-    ),
-  const  SizedBox(height: 100,),
-      ElevatedButton(
-  onPressed: () {
-    if (formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Processing Data')),
-
-      );
-      SharedPreferencesHelper.saveData(key: 'k', value: textinput.text);
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>LevelsScreen()));
-      SharedPreferencesHelper.getData(key: 'k')[0]=null;
-
-    }
-  },
-  child: const Text('Submit'),
-),
-    ],
-    ) ,
-    
-                    ),
-                  )   
-                ],
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                   const SizedBox(height: 20,),
+                   DefaultTextStyle(style: GoogleFonts.aBeeZee(
+                      fontSize: MediaQuery.of(context).size.width*0.059,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black
+                    ), child: const Text('enter your Email')) ,
+                    Container(
+                      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.04),
+                      child: Form(
+                        key: formKey,
+                        child:      Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(height: 30,),
+                            Container(
+                              width: 250,
+                              height: 45,
+                              decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 220, 109, 248),
+                              borderRadius: BorderRadius.horizontal(right: Radius.circular(20),left: Radius.circular(20))
+                              ),
+                              child: TextFormField(
+                                              decoration:const InputDecoration(
+                                                border: InputBorder.none
+                                              ),
+                                              controller: textinput,
+                                              keyboardAppearance: Brightness.light,
+                                                    validator: (value) {
+                                                    if (value == null || value.isEmpty) {
+                                                      return 'Please enter some text';
+                                                    }
+                                                    return null;
+                                                    },
+                                                  ),
+                            ),
+                  const  SizedBox(height: 100,),
+                      ElevatedButton(
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Processing Data')),
+                
+                      );
+                      SharedPreferencesHelper.saveData(key: 'k', value: textinput.text);
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>LevelsScreen()));
+                     // SharedPreferencesHelper.getData(key: 'k')[0]=null;
+                
+                    }
+                  },
+                  child: const Text('Submit'),
+                ),
+                    ],
+                    ) ,
+                    
+                      ),
+                    )   
+                  ],
+                ),
               ),
             )
           ],

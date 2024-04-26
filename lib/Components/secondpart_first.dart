@@ -42,7 +42,7 @@ class _SecondPartState extends State<SecondPart> {
             )),
             GestureDetector(
              onTap: () {
-              if(SharedPreferencesHelper.getData(key: 'k')[0]!=null)
+              if(SharedPreferencesHelper.getData(key: 'k')!=null)
                Navigator.push(context, MaterialPageRoute(builder: (context)=>LevelsScreen()));
                else
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>ValidationScreen()));
